@@ -27,7 +27,7 @@ They'll be connected to an ESP32 for attaching everything to our Home Assistant,
 
 A 4-button-panel eliminates the need for long- and short-press button combinations, simplifying the usage of setting the status vs starting up or shutting down the space. The status LEDs will show a clear and easily-understandable state. Because the buttons are recessed and industrial grade, they can't be pressed accidentally. The buttons are rated for ten million (!!) switching cycles. They'll probably outlast our civilization.
 
-The LEDs are industrial-grade modules that attach to the back of the switches and need 24V AC or DC. We still need to figure out if we wanna step up from 5V to 24V, down from 24V to 5V, or if we even need the 24V rail at all (maybe the LEDs are bright enough at 5V? We'll see!). If we need 24V for the LEDs, we also need two relais or transistors to control them.
+The LEDs are industrial-grade modules that attach to the back of the switches and need at least 10V to be bright enough, but nominally 24V AC or DC. We still need to figure out if we wanna step up from 5V to {10, 12, 15, 19, 20, 24}V, or down from {10, 12, 15, 19, 20, 24}V to 5V. We also need two relais or transistors to control them.
 
 A BOM will follow.
 
