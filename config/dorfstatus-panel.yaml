@@ -22,6 +22,7 @@ ota:
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
+  domain: .chaosdorf.space
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
@@ -29,4 +30,4 @@ wifi:
     password: "0oHAjt4nzqxt"
 
 captive_portal:
-    
+
