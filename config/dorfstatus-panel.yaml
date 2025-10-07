@@ -79,8 +79,11 @@ binary_sensor:
     filters:
       - delayed_on: 10ms
     on_press:
-      then:
-        - switch.turn_on: dorfstatus_switch
+      if:
+        condition:
+          switch.is_off: dorfstatus_switch
+        then:
+          - switch.turn_on: dorfstatus_switch
   - platform: gpio
     pin:
       number: GPIO10
@@ -92,8 +95,11 @@ binary_sensor:
     filters:
       - delayed_on: 10ms
     on_press:
-      then:
-        - switch.turn_off: dorfstatus_switch
+      if:
+        condition:
+          switch.is_on: dorfstatus_switch
+        then:
+          - switch.turn_off: dorfstatus_switch
     on_multi_click:  # force restart function via triple long press so you don't have to re-plug the power
       - timing:
         - ON for 0.6s to 1.5s
