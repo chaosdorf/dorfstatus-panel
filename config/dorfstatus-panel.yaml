@@ -41,13 +41,13 @@ button:
 
 binary_sensor:
   - platform: gpio
+    name: "startup button"
+    internal: true
     pin:
       number: GPIO5
       mode:
         input: true
         pulldown: true
-    name: "startup button"
-    internal: true
     filters:
       - delayed_on: 10ms
     on_press:
@@ -55,13 +55,13 @@ binary_sensor:
         - homeassistant.action:
             action: script.boot_script
   - platform: gpio
+    name: "shutdown button"
+    internal: true
     pin:
       number: GPIO6
       mode:
         input: true
         pulldown: true
-    name: "shutdown button"
-    internal: true
     filters:
       - delayed_on: 10ms
     on_press:
@@ -69,13 +69,13 @@ binary_sensor:
         - homeassistant.action:
             action: script.shutdownscript
   - platform: gpio
+    name: "set dorfstatus to open button"
+    internal: true
     pin:
       number: GPIO7
       mode:
         input: true
         pulldown: true
-    name: "set dorfstatus to open button"
-    internal: true
     filters:
       - delayed_on: 10ms
     on_press:
@@ -85,13 +85,13 @@ binary_sensor:
         then:
           - switch.turn_on: dorfstatus_switch
   - platform: gpio
+    name: "set dorfstatus to closed button"
+    internal: true
     pin:
       number: GPIO10
       mode:
         input: true
         pulldown: true
-    name: "set dorfstatus to closed button"
-    internal: true
     filters:
       - delayed_on: 10ms
     on_press:
