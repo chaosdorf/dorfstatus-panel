@@ -31,3 +31,109 @@ wifi:
 
 captive_portal:
 
+### actual device config starts here
+
+button:
+  - platform: restart
+    # this creates a virtual restart button for the triple click automation further down below
+    id: restart_button
+    internal: true
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO5
+      mode:
+        input: true
+        pulldown: true
+    name: "startup button"
+    internal: true
+    filters:
+      - delayed_on: 10ms
+    on_press:
+      then:
+        - homeassistant.action:
+            action: script.boot_script
+  - platform: gpio
+    pin:
+      number: GPIO6
+      mode:
+        input: true
+        pulldown: true
+    name: "shutdown button"
+    internal: true
+    filters:
+      - delayed_on: 10ms
+    on_press:
+      then:
+        - homeassistant.action:
+            action: script.shutdownscript
+  - platform: gpio
+    pin:
+      number: GPIO7
+      mode:
+        input: true
+        pulldown: true
+    name: "set dorfstatus to open button"
+    internal: true
+    filters:
+      - delayed_on: 10ms
+    on_press:
+      then:
+        - switch.turn_on: dorfstatus_switch
+  - platform: gpio
+    pin:
+      number: GPIO10
+      mode:
+        input: true
+        pulldown: true
+    name: "set dorfstatus to closed button"
+    internal: true
+    filters:
+      - delayed_on: 10ms
+    on_press:
+      then:
+        - switch.turn_off: dorfstatus_switch
+    on_multi_click:  # force restart function via triple long press so you don't have to re-plug the power
+      - timing:
+        - ON for 0.6s to 1.5s
+        - OFF for at most 2s
+        - ON for 0.6s to 1.5s
+        - OFF for at most 2s
+        - ON for 0.6s to 1.5s
+        - OFF for at least 0.5s
+        then:
+          - button.press: restart_button
+
+output:
+  - platform: gpio
+    id: green_dorfstatus_led_output
+    pin: GPIO1
+
+light:
+  - platform: binary
+    name: "green status LED"
+    id: green_dorfstatus_led_light
+    internal: true
+    output: green_dorfstatus_led_output
+  - platform: status_led
+    # status_led is a combination of the status_led component and a binary light.
+    # because of that we don't need to configure the output above and the binary light below.
+    name: "red status LED"
+    id: red_dorfstatus_led_light
+    internal: true
+    pin: GPIO0
+
+switch:
+  - platform: homeassistant
+    id: dorfstatus_switch
+    entity_id: input_boolean.dorfstatus
+    internal: true
+    on_turn_on:
+      then:
+        - light.turn_off: red_dorfstatus_led_light
+        - light.turn_on: green_dorfstatus_led_light
+    on_turn_off:
+      then:
+        - light.turn_off: green_dorfstatus_led_light
+        - light.turn_on: red_dorfstatus_led_light
